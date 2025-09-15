@@ -7,12 +7,12 @@ const Hero = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting); // re-trigger on enter/leave
+        setIsVisible(entry.isIntersecting); 
       },
       { threshold: 0.3 }
     );
 
-    const element = document.getElementById("home"); // fixed: was "about"
+    const element = document.getElementById("home"); 
     if (element) {
       observer.observe(element);
     }
