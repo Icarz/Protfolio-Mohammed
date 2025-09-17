@@ -76,7 +76,7 @@ const Skills = () => {
                   key={index}
                   className="border-l-2 border-blue-500 pl-6 group transition-all duration-1000"
                 >
-                  <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-500 rounded-full group-hover:scale-125 transition-all duration-500"></div>
+                  {/* <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-500 rounded-full group-hover:scale-125 transition-all duration-500"></div> */}
                   <div className="text-blue-400 text-sm font-semibold mb-2 group-hover:text-blue-300 transition-all duration-300">
                     {edu.year}
                   </div>
