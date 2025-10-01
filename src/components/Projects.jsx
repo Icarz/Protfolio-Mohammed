@@ -15,8 +15,8 @@ const Projects = () => {
       technologies: ["React", "Nodejs", "Express", "Mongodb", "jwt"],
       category: "Full Stack",
       featured: "true",
-      github: "https://github.com/yourusername/green-ville",
-      live: "https://green-ville-demo.com",
+      github: "https://github.com/shadowofleaf96/GreenVille",
+      live: "https://greenville-frontend.vercel.app",
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ const Projects = () => {
       technologies: ["React", "Nodejs", "Mongodb", "Jwt", "TailwindCss"],
       category: "Full Stack",
       featured: "false",
-      github: "https://github.com/yourusername/book-cave",
+      github: "https://github.com/Icarz/BooksCaveApp",
       live: "https://book-cave-demo.com",
     },
     {
@@ -39,8 +39,8 @@ const Projects = () => {
       technologies: ["React", "CSS"],
       category: "Frontend",
       featured: "false",
-      github: "https://github.com/yourusername/weather-app",
-      live: "https://weather-app-demo.com",
+      github: "https://github.com/Icarz/weather_react_app",
+      live: "https://icarz.github.io/weather_react_app",
     },
     {
       id: 4,
@@ -51,7 +51,7 @@ const Projects = () => {
       technologies: ["React", "Nodejs", "Mongodb", "TailwindCss", "Jwt"],
       category: "Full Stack",
       featured: "false",
-      github: "https://github.com/yourusername/skill-swap",
+      github: "https://github.com/Icarz/SkillSwap",
       live: "https://skill-swap-demo.com",
     },
   ];

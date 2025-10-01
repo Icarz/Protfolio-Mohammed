@@ -1,4 +1,4 @@
-import { ArrowRight, Github, Linkedin, Mail, Play } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Hero = () => {
@@ -7,12 +7,12 @@ const Hero = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting); 
+        setIsVisible(entry.isIntersecting);
       },
       { threshold: 0.3 }
     );
 
-    const element = document.getElementById("home"); 
+    const element = document.getElementById("home");
     if (element) {
       observer.observe(element);
     }
@@ -58,29 +58,33 @@ const Hero = () => {
               </p>
               <div className="flex flex-wrap gap-4 transition-all duration-1000 delay-500">
                 <button className="group bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl font-medium hover:scale-105">
-                  LEARN MORE
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </button>
-                <button className="border-2 border-slate-600 text-white px-8 py-4 rounded-lg hover:border-blue-600 hover:text-blue-400 transition-all duration-300 font-medium flex  items-center gap-2 group hover:scale-105">
-                  <Play className="w-4 h-4" /> Play
+                  <a href="#about">
+                    LEARN MORE
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </a>
                 </button>
               </div>
               {/* social icons */}
+              {/* social icons */}
               <div className="flex gap-4 transition-all duration-1000 delay-700">
                 <a
-                  href="#"
+                  href="https://github.com/Icarz"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
                 >
                   <Github className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/mohammed-rerhaye-356197125/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="mailto:mr.rghay@gmail.com"
                   className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
                 >
                   <Mail className="w-5 h-5" />

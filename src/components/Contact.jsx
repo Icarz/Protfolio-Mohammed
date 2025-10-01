@@ -1,9 +1,16 @@
-// src/components/Contact.jsx
 import { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState("");
 
+  // Scroll animation
   useEffect(() => {
     const handleScroll = () => {
       const section = document.getElementById("contact");
@@ -14,11 +21,41 @@ const Contact = () => {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // run on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+    emailjs
+      .send(
+        "service_7c4elj9",
+        "template_9b762ce",
+        {
+          user_name: formData.name,
+          user_email: formData.email,
+          message: formData.message,
+        },
+        "dX06gbK8Vx5GH_U14"
+      )
+      .then(
+        () => {
+          setStatus("Message sent successfully!");
+          setFormData({ name: "", email: "", message: "" });
+        },
+        () => {
+          setStatus("Failed to send message. Try again.");
+        }
+      );
+  };
 
   return (
     <section
@@ -34,7 +71,6 @@ const Contact = () => {
 
       {/* Content */}
       <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-        {/* Section title */}
         <h2
           className={`text-3xl md:text-4xl font-bold text-center mb-12 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -61,7 +97,7 @@ const Contact = () => {
               <p>
                 📧{" "}
                 <a
-                  href="mailto:youremail@example.com"
+                  href="mailto:mr.rghay@gmail.com"
                   className="text-blue-400 hover:underline"
                 >
                   Mr.rghay@gmail.com
@@ -73,6 +109,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <form
+            onSubmit={handleSubmit}
             className={`bg-slate-900 p-6 rounded-2xl shadow-lg space-y-4 transition-all duration-700 delay-500 ${
               isVisible
                 ? "opacity-100 translate-x-0"
@@ -80,19 +117,31 @@ const Contact = () => {
             }`}
           >
             <input
+              name="name"
               type="text"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Your Name"
               className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
+              required
             />
             <input
+              name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Your Email"
               className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
+              required
             />
             <textarea
+              name="message"
               rows="4"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Your Message"
               className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
+              required
             ></textarea>
             <button
               type="submit"
@@ -100,6 +149,9 @@ const Contact = () => {
             >
               Send Message
             </button>
+            {status && (
+              <p className="mt-2 text-center text-blue-400">{status}</p>
+            )}
           </form>
         </div>
       </div>

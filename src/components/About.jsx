@@ -81,12 +81,15 @@ const About = () => {
                     : "opacity-0 translate-x-10"
                 }`}
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Sapiente dicta animi reprehenderit unde iusto quae dolorum
-                doloremque labore! Perspiciatis qui sint porro ipsam officia
-                mollitia laudantium repellat accusamus necessitatibus alias!
+                Frontend-focused full-stack web developer with expertise in
+                JavaScript, React, and Node.js. Transitioning from a background
+                in industrial automation, I bring strong problem-solving,
+                project management, and client communication skills. Experienced
+                in building and scaling responsive applications, integrating
+                APIs, and delivering real-world projects through professional
+                roles and intensive bootcamps
               </p>
-              <p
+              {/* <p
                 className={`transition-all duration-1000 delay-700 ${
                   isVisible
                     ? "opacity-100 translate-x-0"
@@ -98,7 +101,7 @@ const About = () => {
                 consequuntur aut modi, rerum facere quia maxime, nam
                 distinctio, quod ut deserunt dolores expedita voluptates
                 cumque? Reprehenderit.
-              </p>
+              </p> */}
             </div>
 
             <div
@@ -140,15 +143,7 @@ const About = () => {
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-10"
               }`}
-            >
-              <button className="bg-blue-600 flex items-center gap-3 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105">
-                <Download size={18} />
-                Download
-              </button>
-              <button className="border-2 border-slate-600 text-white px-8 py-3 rounded-lg hover:border-blue-600 hover:text-blue-400 transition-all duration-300 font-medium hover:scale-105">
-                Learn More
-              </button>
-            </div>
+            ></div>
           </div>
         </div>
       </div>
