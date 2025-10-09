@@ -66,8 +66,8 @@ const Header = () => {
 
           {/* Desktop Download Button */}
           <a
-            href="/Mohammed_Rerhaye_CV.pdf"
-            download="Mohammed_Rerhaye_CV.pdf"
+            href="/Mohammed-Rerhaye-CV.pdf"
+            download="Mohammed-Rerhaye-CV.pdf"
             className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105"
           >
             <Download size={18} />
