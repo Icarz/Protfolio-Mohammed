@@ -42,6 +42,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
+          {/* Logo */}
           <div className="text-2xl font-bold">
             <span className="text-blue-400">MOHAMMED</span>
             <span className="text-blue-700">RERHAYE</span>
@@ -50,26 +51,30 @@ const Header = () => {
 
           {/* Desktop menu */}
           <nav className="hidden md:flex space-x-8">
-            {navItems.map((item, index) => {
-              return (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-gray-300 hover:text-blue-300 transition-all duration-300 font-medium relative group"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  {item.name}
-                  <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-blue-300 transition-all duration-300 group-hover:w-full"></span>
-                </button>
-              );
-            })}
+            {navItems.map((item, index) => (
+              <button
+                key={item.href}
+                onClick={() => scrollToSection(item.href)}
+                className="text-gray-300 hover:text-blue-300 transition-all duration-300 font-medium relative group"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {item.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-blue-300 transition-all duration-300 group-hover:w-full"></span>
+              </button>
+            ))}
           </nav>
 
-          <button className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105">
+          {/* Desktop Download Button */}
+          <a
+            href="/Mohammed_Rerhaye_CV.pdf"
+            download="Mohammed_Rerhaye_CV.pdf"
+            className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105"
+          >
             <Download size={18} />
             Download CV
-          </button>
+          </a>
 
+          {/* Mobile menu toggle */}
           <button
             className="text-white md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -78,24 +83,28 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile navBar */}
+        {/* Mobile nav */}
         {isMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-slate-800 pt-4 bg-slate-900 rounded-lg shadow-lg">
-            {navItems.map((item) => {
-              return (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left py-3 px-4 text-gray-300 hover:text-blue-400 hover:bg-slate-800 transition-all duration-300 rounded-lg"
-                >
-                  {item.name}
-                </button>
-              );
-            })}
-            <button className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300">
+            {navItems.map((item) => (
+              <button
+                key={item.href}
+                onClick={() => scrollToSection(item.href)}
+                className="block w-full text-left py-3 px-4 text-gray-300 hover:text-blue-400 hover:bg-slate-800 transition-all duration-300 rounded-lg"
+              >
+                {item.name}
+              </button>
+            ))}
+
+            {/* Mobile Download Button */}
+            <a
+              href="/Mohammed_Rerhaye_CV.pdf"
+              download="Mohammed_Rerhaye_CV.pdf"
+              className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300"
+            >
               <Download size={18} />
               Download CV
-            </button>
+            </a>
           </nav>
         )}
       </div>
