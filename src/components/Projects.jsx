@@ -115,7 +115,7 @@ const Projects = () => {
                   className="object-cover group-hover:scale-105 transition-all duration-300"
                 />
                 {/* Icon Links */}
-                <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute top-3 right-3 flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300">>
                   {project.github && (
                     <a
                       href={project.github}
