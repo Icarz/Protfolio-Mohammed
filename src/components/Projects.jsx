@@ -32,15 +32,15 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: "Weather App",
+      title: "AI Resume Analyzer",
       description:
-        "a react app allowing users to check weather through the glob using and weather API",
-      image: "/weatherApp.png",
-      technologies: ["React", "CSS"],
+        "an ai resume ATS analyzer help you to improve your job application bae on job requirement",
+      image: "/ATS analyzer.png",
+      technologies: ["React", "CSS","tailwind","Puter"],
       category: "Frontend",
       featured: "false",
-      github: "https://github.com/Icarz/weather_react_app",
-      live: "https://icarz.github.io/weather_react_app",
+      github: "https://github.com/Icarz/ai-resume-analyze",
+      live: "https://resume-analyzer-36-nsl7i.puter.site/",
     },
     {
       id: 4,
