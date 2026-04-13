@@ -34,7 +34,7 @@ const Projects = () => {
       category: "Full Stack",
       featured: false,
       github: "https://github.com/Icarz/BooksCaveApp",
-      live: null,
+      live: "https://book-cave-app.vercel.app/",
     },
     {
       id: 3,
@@ -126,8 +126,8 @@ const Projects = () => {
                   height={360}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                {/* Overlay with links */}
-                <div className="absolute inset-0 bg-[#020817]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                {/* Overlay with links — desktop hover only */}
+                <div className="absolute inset-0 bg-[#020817]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center gap-3">
                   {project.github && (
                     <a
                       href={project.github}
@@ -181,6 +181,32 @@ const Projects = () => {
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">
                   {project.description}
                 </p>
+                {/* Mobile action buttons */}
+                <div className="flex md:hidden gap-2 mb-4">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+                    >
+                      <GithubIcon className="w-4 h-4" />
+                      Code
+                    </a>
+                  )}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+
                 <div className="flex flex-wrap gap-1.5">
                   {project.technologies.map((tech) => (
                     <span
