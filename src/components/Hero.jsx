@@ -1,120 +1,161 @@
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.2 }
     );
-
-    const element = document.getElementById("home");
-    if (element) {
-      observer.observe(element);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center bg-gradient-to-br from-slate-900 to-slate-900 pt-20 relative overflow-hidden"
+      ref={sectionRef}
+      className="dot-grid min-h-screen flex items-center pt-20 relative overflow-hidden bg-[#020817]"
     >
-      {/* animated background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-green-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full bg-gradient-to-r from-transparent via-green-600/5"></div>
+      {/* Ambient glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500/8 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-6 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* left content */}
+
+          {/* Left content */}
           <div
-            className={`space-y-8 transition-all transition-transform duration-1000 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-10"
+            className={`space-y-8 transition-all duration-1000 ${
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
             }`}
           >
-            <div className="space-y-4">
-              <p className="text-blue-400 font-semibold text-lg transition-all duration-1000">
-                Get Ready To Start Work
-              </p>
-              <h1 className="text-2xl md:text-5xl font-black text-white leading-tight transition-all duration-1000 delay-200">
-                I am
-                <span className="text-blue-400"> Developer</span> <br />
-                <span className="text-white">MOHAMMED RERHAYE</span>
+            {/* Available badge */}
+            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span
+                className="text-sm text-blue-300 tracking-widest uppercase"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Available for work
+              </span>
+            </div>
+
+            {/* Heading */}
+            <div className="space-y-3">
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-none"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Full Stack
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                  Developer
+                </span>
               </h1>
-              <p className="text-gray-300 text-lg leading-relaxed max-w-lg transition-all duration-1000 delay-300">
-                A passionate web developer with a strong focus on building
-                clean, responsive, and user-friendly applications. After
-                changing my career path to pursue software development
+              <p
+                className="text-slate-400 text-sm tracking-widest uppercase mt-4"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Mohammed Rerhaye
               </p>
-              <div className="flex flex-wrap gap-4 transition-all duration-1000 delay-500">
-                <button className="group bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl font-medium hover:scale-105">
-                  <a href="#about">
-                    LEARN MORE
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </button>
+            </div>
+
+            {/* Bio */}
+            <p className="text-slate-300 text-lg leading-relaxed max-w-md">
+              Building clean, responsive, and user-friendly web applications.
+              Specializing in the MERN stack — from pixel-perfect UIs to
+              scalable backend APIs.
+            </p>
+
+            {/* CTA */}
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-7 py-3.5 rounded-lg transition-all duration-300 font-semibold hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                View My Work
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 text-slate-300 hover:text-white border border-white/10 hover:border-white/20 px-7 py-3.5 rounded-lg transition-all duration-300 font-semibold hover:bg-white/5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Get in Touch
+              </a>
+            </div>
+
+            {/* Socials */}
+            <div className="flex gap-3 pt-2">
+              {[
+                { href: "https://github.com/Icarz", icon: Github, label: "GitHub" },
+                { href: "https://www.linkedin.com/in/mohammed-rerhaye-356197125/", icon: Linkedin, label: "LinkedIn" },
+                { href: "mailto:mr.rghay@gmail.com", icon: Mail, label: "Email" },
+              ].map(({ href, icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  aria-label={label}
+                  className="w-11 h-11 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 hover:border-blue-500 transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — photo */}
+          <div
+            className={`relative transition-all duration-1000 delay-300 ${
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+            }`}
+          >
+            <div className="relative max-w-sm mx-auto lg:max-w-none">
+              {/* Decorative ring */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/10 blur-2xl scale-110" />
+              <div className="relative border-2 border-white/10 rounded-full p-1.5 bg-white/5 backdrop-blur-sm">
+                <img
+                  src="/profile.jpg"
+                  alt="Mohammed Rerhaye — Full Stack Developer"
+                  width={480}
+                  height={480}
+                  className="w-full rounded-full object-cover shadow-2xl"
+                />
               </div>
-              {/* social icons */}
-              {/* social icons */}
-              <div className="flex gap-4 transition-all duration-1000 delay-700">
-                <a
-                  href="https://github.com/Icarz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
-                >
-                  <Github className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/mohammed-rerhaye-356197125/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="mailto:mr.rghay@gmail.com"
-                  className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group hover:scale-110 hover:rotate-6"
-                >
-                  <Mail className="w-5 h-5" />
-                </a>
+
+              {/* Floating stat cards */}
+              <div
+                className="absolute -bottom-4 -left-6 bg-[#0F172A] border border-white/10 rounded-xl px-4 py-3 shadow-xl"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                <p className="text-xs text-slate-500 mb-0.5">Experience</p>
+                <p className="text-white font-semibold text-sm">3+ Years</p>
+              </div>
+              <div
+                className="absolute -top-4 -right-6 bg-[#0F172A] border border-white/10 rounded-xl px-4 py-3 shadow-xl"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                <p className="text-xs text-slate-500 mb-0.5">Projects</p>
+                <p className="text-white font-semibold text-sm">10+ Built</p>
               </div>
             </div>
           </div>
 
-          {/* right content */}
-          <div
-            className={`relative transition-all transition-transform duration-1000 delay-300 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-10"
-            }`}
-          >
-            <div className="relative">
-              <div className="w-full max-w-lg mx-auto">
-                <div className="relative group">
-                  <img
-                    src="profile.jpg"
-                    alt="Mohammed rerhaye"
-                    className="w-full rounded-full shadow-2xl transition-all duration-500 group-hover:scale-105"
-                  />
-                </div>
-              </div>
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-blue-600 rounded-2xl opacity-20"></div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-blue-400 rounded-full opacity-20"></div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

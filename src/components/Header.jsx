@@ -6,23 +6,16 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     setIsMenuOpen(false);
   };
 
-  // Nav items
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
@@ -36,75 +29,81 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-slate-950 backdrop-blur-lg shadow-lg border-b border-slate-800"
-          : "bg-slate-950/80 backdrop-blur-sm"
+          ? "bg-[#020817]/95 backdrop-blur-lg shadow-lg shadow-black/20 border-b border-white/5"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-2xl font-bold">
-            <span className="text-blue-400">MOHAMMED</span>
-            <span className="text-blue-700">RERHAYE</span>
-            <span className="text-blue-400">.</span>
-          </div>
+          <button
+            onClick={() => scrollToSection("#home")}
+            className="group flex items-baseline gap-0.5"
+          >
+            <span
+              className="text-xl font-bold text-white tracking-tight"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              MR
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mb-0.5 group-hover:bg-cyan-400 transition-colors duration-300" />
+          </button>
 
-          {/* Desktop menu */}
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item, index) => (
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
               <button
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
-                className="text-gray-300 hover:text-blue-300 transition-all duration-300 font-medium relative group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200 font-medium"
               >
                 {item.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-blue-300 transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
           </nav>
 
-          {/* Desktop Download Button */}
+          {/* Download CV */}
           <a
             href="/Mohammed-Rerhaye-CV.pdf"
             download="Mohammed-Rerhaye-CV.pdf"
-            className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105"
+            className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm px-5 py-2.5 rounded-lg transition-all duration-300 font-medium hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
           >
-            <Download size={18} />
+            <Download size={15} />
             Download CV
           </a>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile toggle */}
           <button
-            className="text-white md:hidden"
+            className="text-slate-300 hover:text-white md:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
         {/* Mobile nav */}
         {isMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 border-t border-slate-800 pt-4 bg-slate-900 rounded-lg shadow-lg">
+          <nav className="md:hidden mt-3 pb-3 border-t border-white/5 pt-3 space-y-1">
             {navItems.map((item) => (
               <button
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left py-3 px-4 text-gray-300 hover:text-blue-400 hover:bg-slate-800 transition-all duration-300 rounded-lg"
+                className="block w-full text-left px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200 rounded-lg text-sm font-medium"
               >
                 {item.name}
               </button>
             ))}
-
-            {/* Mobile Download Button */}
-            <a
-              href="/Mohammed-Rerhaye-CV.pdf"
-              download="Mohammed-Rerhaye-CV.pdf"
-              className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-300"
-            >
-              <Download size={18} />
-              Download CV
-            </a>
+            <div className="pt-2">
+              <a
+                href="/Mohammed-Rerhaye-CV.pdf"
+                download="Mohammed-Rerhaye-CV.pdf"
+                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg transition-colors text-sm font-medium"
+              >
+                <Download size={15} />
+                Download CV
+              </a>
+            </div>
           </nav>
         )}
       </div>

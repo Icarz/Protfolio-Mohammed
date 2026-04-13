@@ -1,129 +1,186 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { MapPin, Mail, Send, Linkedin } from "lucide-react";
+
+const GithubIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+  </svg>
+);
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [status, setStatus] = useState("");
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const sectionRef = useRef(null);
 
-  // Scroll animation
   useEffect(() => {
-    const handleScroll = () => {
-      const section = document.getElementById("contact");
-      if (section) {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          setIsVisible(true);
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  // Handle input change
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("Sending...");
+    setStatus("sending");
     emailjs
       .send(
-        "service_7c4elj9",
-        "template_9b762ce",
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           user_name: formData.name,
           user_email: formData.email,
           message: formData.message,
         },
-        "dX06gbK8Vx5GH_U14"
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
       .then(
         () => {
-          setStatus("Message sent successfully!");
+          setStatus("success");
           setFormData({ name: "", email: "", message: "" });
         },
-        () => {
-          setStatus("Failed to send message. Try again.");
-        }
+        () => setStatus("error")
       );
   };
+
+  const contactLinks = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "mr.rghay@gmail.com",
+      href: "mailto:mr.rghay@gmail.com",
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: "Casablanca, Morocco",
+      href: null,
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "mohammed-rerhaye",
+      href: "https://www.linkedin.com/in/mohammed-rerhaye-356197125/",
+    },
+    {
+      icon: GithubIcon,
+      label: "GitHub",
+      value: "github.com/Icarz",
+      href: "https://github.com/Icarz",
+    },
+  ];
 
   return (
     <section
       id="contact"
-      className="py-20 bg-slate-950 text-white relative overflow-hidden"
+      ref={sectionRef}
+      className="py-28 bg-[#030E1F] relative overflow-hidden"
     >
-      {/* Background blobs */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-green-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-r from-transparent via-green-600/5 to-transparent"></div>
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 w-[600px] h-72 bg-blue-600/6 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-        <h2
-          className={`text-3xl md:text-4xl font-bold text-center mb-12 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Contact Me
-        </h2>
+          <p
+            className="text-blue-400 text-sm tracking-widest uppercase mb-4"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Get in Touch
+          </p>
+          <h2
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Let's Work Together
+          </h2>
+          <p className="text-slate-400 text-lg max-w-xl mx-auto">
+            Open to new projects, freelance work, and full-time opportunities.
+            Drop me a message and I'll get back to you.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Contact Info */}
+        <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          {/* Left — contact info */}
           <div
-            className={`space-y-6 transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-10"
+            className={`space-y-4 transition-all duration-700 delay-100 ${
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
             }`}
           >
-            <h3 className="text-2xl font-semibold mb-4">Let’s Connect</h3>
-            <p className="text-gray-300">
-              I’m always open to discussing new projects, creative ideas, or
-              opportunities to be part of your vision.
-            </p>
-            <div className="space-y-2">
-              <p>
-                📧{" "}
-                <a
-                  href="mailto:mr.rghay@gmail.com"
-                  className="text-blue-400 hover:underline"
-                >
-                  Mr.rghay@gmail.com
-                </a>
-              </p>
-              <p>📍 Morocco Casablanca</p>
-            </div>
+            <h3
+              className="text-xl font-bold text-white mb-6"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Contact Info
+            </h3>
+
+            {contactLinks.map(({ icon: Icon, label, value, href }) => (
+              <div
+                key={label}
+                className="flex items-center gap-4 p-4 bg-white/3 border border-white/8 rounded-xl hover:border-blue-500/30 hover:bg-blue-500/5 transition-all duration-300 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4 text-blue-400" />
+                </div>
+                <div>
+                  <p
+                    className="text-xs text-slate-500 uppercase tracking-wider mb-0.5"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {label}
+                  </p>
+                  {href ? (
+                    <a
+                      href={href}
+                      target={href.startsWith("http") ? "_blank" : undefined}
+                      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-sm text-slate-200 hover:text-blue-300 transition-colors font-medium"
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <p className="text-sm text-slate-200 font-medium">{value}</p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Contact Form */}
+          {/* Right — form */}
           <form
             onSubmit={handleSubmit}
-            className={`bg-slate-900 p-6 rounded-2xl shadow-lg space-y-4 transition-all duration-700 delay-500 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-10"
+            className={`space-y-4 transition-all duration-700 delay-200 ${
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
             }`}
           >
+            <h3
+              className="text-xl font-bold text-white mb-6"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Send a Message
+            </h3>
+
             <input
               name="name"
               type="text"
               value={formData.name}
               onChange={handleChange}
               placeholder="Your Name"
-              className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
               required
+              className="w-full px-4 py-3 rounded-xl bg-white/3 border border-white/10 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 text-white placeholder-slate-500 transition-all duration-200 text-sm"
             />
             <input
               name="email"
@@ -131,26 +188,49 @@ const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Your Email"
-              className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
               required
+              className="w-full px-4 py-3 rounded-xl bg-white/3 border border-white/10 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 text-white placeholder-slate-500 transition-all duration-200 text-sm"
             />
             <textarea
               name="message"
-              rows="4"
+              rows={5}
               value={formData.message}
               onChange={handleChange}
               placeholder="Your Message"
-              className="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-blue-400 text-white"
               required
-            ></textarea>
+              className="w-full px-4 py-3 rounded-xl bg-white/3 border border-white/10 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 text-white placeholder-slate-500 transition-all duration-200 text-sm resize-none"
+            />
+
             <button
               type="submit"
-              className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition transform hover:scale-105"
+              disabled={status === "sending"}
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
             >
-              Send Message
+              {status === "sending" ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                  </svg>
+                  Sending…
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </>
+              )}
             </button>
-            {status && (
-              <p className="mt-2 text-center text-blue-400">{status}</p>
+
+            {status === "success" && (
+              <p className="text-center text-emerald-400 text-sm font-medium">
+                Message sent successfully. I'll be in touch soon!
+              </p>
+            )}
+            {status === "error" && (
+              <p className="text-center text-red-400 text-sm font-medium">
+                Something went wrong. Please try emailing me directly.
+              </p>
             )}
           </form>
         </div>

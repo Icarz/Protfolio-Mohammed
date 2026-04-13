@@ -1,18 +1,50 @@
 @import "tailwindcss";
 
-layer base {
+@theme {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
   }
+
   body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
+    background-color: #020817;
+    color: #e2e8f0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.15;
   }
 }
 
-/* Add this outside the base layer */
-body {
-  background-color: #0f172a;
+/* Dot grid texture for hero section */
+.dot-grid {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Horizontal line grid for skills section */
+.line-grid {
+  background-image: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 100% 48px;
+}
+
+/* Diagonal stripe for about section */
+.diagonal-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(59, 130, 246, 0.03) 40px,
+    rgba(59, 130, 246, 0.03) 41px
+  );
 }
