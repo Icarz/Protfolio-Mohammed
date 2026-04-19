@@ -60,6 +60,18 @@ const Projects = () => {
       github: "https://github.com/Icarz/SkillSwap",
       live: "https://theskillswap.vercel.app",
     },
+    {
+      id: 5,
+      title: "ChatP",
+      description:
+        "A modern real-time chat application built with the MERN stack and Socket.io, featuring JWT authentication, online presence tracking, and global state management with Zustand.",
+      image: "/ChattApp.png",
+      technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Zustand", "Daisy UI"],
+      category: "Full Stack",
+      featured: false,
+      github: "https://github.com/Icarz/ChatWebApp",
+      live: "https://icarus-chatapp.vercel.app/",
+    },
   ];
 
   useEffect(() => {
