@@ -35,7 +35,7 @@ const Footer = () => {
             className="text-slate-500 text-sm"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            © {year} Mohammed Rerhaye. All rights reserved.
+            © {year} Icarus & Co. All rights reserved.
           </p>
 
           {/* Socials */}
