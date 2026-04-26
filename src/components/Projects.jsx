@@ -72,6 +72,18 @@ const Projects = () => {
       github: "https://github.com/Icarz/ChatWebApp",
       live: "https://icarus-chatapp.vercel.app/",
     },
+    {
+      id: 6,
+      title: "Château Blanc Chocolat",
+      description:
+        "A elegant landing page for a premium chocolate brand, featuring a refined visual identity, smooth animations, and a fully responsive design.",
+      image: "/chateau_blanc.png",
+      technologies: ["React", "Tailwind CSS", "Vite"],
+      category: "Frontend",
+      featured: false,
+      github: "https://github.com/Icarz/chateauBlanc_chocolat",
+      live: "https://chateaublanc.vercel.app/#hero",
+    },
   ];
 
   useEffect(() => {
