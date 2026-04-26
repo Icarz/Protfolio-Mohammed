@@ -62,7 +62,7 @@ const Projects = () => {
     },
     {
       id: 5,
-      title: "ChatP",
+      title: "ChatApp",
       description:
         "A modern real-time chat application built with the MERN stack and Socket.io, featuring JWT authentication, online presence tracking, and global state management with Zustand.",
       image: "/ChattApp.png",
