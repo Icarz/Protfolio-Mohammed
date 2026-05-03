@@ -1,90 +1,18 @@
 import { ExternalLink } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { usePortfolio } from "../context/PortfolioContext";
 
 const GithubIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
   </svg>
 );
-import { useEffect, useRef, useState } from "react";
 
 const Projects = () => {
+  const { data } = usePortfolio();
+  const { projects } = data;
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
-
-  const projects = [
-    {
-      id: 1,
-      title: "GreenVille E-Commerce",
-      description:
-        "A modern e-commerce platform with full product management, cart, authentication, and responsive mobile design.",
-      image: "/greenVille.png",
-      technologies: ["React", "Node.js", "Express", "MongoDB", "JWT"],
-      category: "Full Stack",
-      featured: true,
-      github: "https://github.com/shadowofleaf96/GreenVille",
-      live: "https://greenville-frontend.vercel.app",
-    },
-    {
-      id: 2,
-      title: "Book Cave",
-      description:
-        "A platform where book lovers can browse, review, and track their favorite books with a clean reading experience.",
-      image: "/bookCave.png",
-      technologies: ["React", "Node.js", "MongoDB", "JWT", "Tailwind CSS"],
-      category: "Full Stack",
-      featured: false,
-      github: "https://github.com/Icarz/BooksCaveApp",
-      live: "https://book-cave-app.vercel.app/",
-    },
-    {
-      id: 3,
-      title: "AI Resume Analyzer",
-      description:
-        "An AI-powered ATS resume analyzer that helps improve job applications based on specific job requirements.",
-      image: "/ATS%20analyzer.png",
-      technologies: ["React", "Tailwind CSS", "Puter AI"],
-      category: "Frontend",
-      featured: false,
-      github: "https://github.com/Icarz/ai-resume-analyze",
-      live: "https://resume-analyzer-36-nsl7i.puter.site/",
-    },
-    {
-      id: 4,
-      title: "Skill Swap",
-      description:
-        "A community platform that connects people who want to exchange skills — learn something new by teaching what you know.",
-      image: "/skillSwap.png",
-      technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS", "JWT"],
-      category: "Full Stack",
-      featured: false,
-      github: "https://github.com/Icarz/SkillSwap",
-      live: "https://theskillswap.vercel.app",
-    },
-    {
-      id: 5,
-      title: "ChatApp",
-      description:
-        "A modern real-time chat application built with the MERN stack and Socket.io, featuring JWT authentication, online presence tracking, and global state management with Zustand.",
-      image: "/ChattApp.png",
-      technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Zustand", "Daisy UI"],
-      category: "Full Stack",
-      featured: false,
-      github: "https://github.com/Icarz/ChatWebApp",
-      live: "https://icarus-chatapp.vercel.app/",
-    },
-    {
-      id: 6,
-      title: "Château Blanc Chocolat",
-      description:
-        "A elegant landing page for a premium chocolate brand, featuring a refined visual identity, smooth animations, and a fully responsive design.",
-      image: "/chateau_blanc.png",
-      technologies: ["React", "Tailwind CSS", "Vite"],
-      category: "Frontend",
-      featured: false,
-      github: "https://github.com/Icarz/chateauBlanc_chocolat",
-      live: "https://chateaublanc.vercel.app/#hero",
-    },
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(

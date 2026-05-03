@@ -1,7 +1,10 @@
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { usePortfolio } from "../context/PortfolioContext";
 
 const Hero = () => {
+  const { data } = usePortfolio();
+  const { hero } = data;
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -36,15 +39,17 @@ const Hero = () => {
             }`}
           >
             {/* Available badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span
-                className="text-sm text-blue-300 tracking-widest uppercase"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Available for work
-              </span>
-            </div>
+            {hero.available && (
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span
+                  className="text-sm text-blue-300 tracking-widest uppercase"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  Available for work
+                </span>
+              </div>
+            )}
 
             {/* Heading */}
             <div className="space-y-3">
@@ -52,25 +57,23 @@ const Hero = () => {
                 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-none"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                Full Stack
+                {hero.role.split(" ").slice(0, -1).join(" ")}
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  Developer
+                  {hero.role.split(" ").slice(-1)[0]}
                 </span>
               </h1>
               <p
                 className="text-slate-400 text-sm tracking-widest uppercase mt-4"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                Mohammed Rerhaye
+                {hero.name}
               </p>
             </div>
 
             {/* Bio */}
             <p className="text-slate-300 text-lg leading-relaxed max-w-md">
-              Building clean, responsive, and user-friendly web applications.
-              Specializing in the MERN stack — from pixel-perfect UIs to
-              scalable backend APIs.
+              {hero.bio}
             </p>
 
             {/* CTA */}
@@ -101,10 +104,10 @@ const Hero = () => {
             {/* Socials */}
             <div className="flex gap-3 pt-2">
               {[
-                { href: "https://github.com/Icarz", icon: Github, label: "GitHub" },
-                { href: "https://www.linkedin.com/in/mohammed-rerhaye-356197125/", icon: Linkedin, label: "LinkedIn" },
-                { href: "mailto:mr.rghay@gmail.com", icon: Mail, label: "Email" },
-              ].map(({ href, icon: Icon, label }) => (
+                { href: hero.github, icon: Github, label: "GitHub" },
+                { href: hero.linkedin, icon: Linkedin, label: "LinkedIn" },
+                { href: `mailto:${hero.email}`, icon: Mail, label: "Email" },
+              ].filter(s => s.href).map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
                   href={href}
@@ -130,8 +133,8 @@ const Hero = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/10 blur-2xl scale-110" />
               <div className="relative border-2 border-white/10 rounded-full p-1.5 bg-white/5 backdrop-blur-sm">
                 <img
-                  src="/profile.jpg"
-                  alt="Mohammed Rerhaye — Full Stack Developer"
+                  src={hero.photo}
+                  alt={`${hero.name} — ${hero.role}`}
                   width={480}
                   height={480}
                   className="w-full rounded-full object-cover shadow-2xl"
@@ -144,14 +147,14 @@ const Hero = () => {
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 <p className="text-xs text-slate-500 mb-0.5">Experience</p>
-                <p className="text-white font-semibold text-sm">3+ Years</p>
+                <p className="text-white font-semibold text-sm">{hero.experienceStat}</p>
               </div>
               <div
                 className="absolute -top-4 -right-6 bg-[#0F172A] border border-white/10 rounded-xl px-4 py-3 shadow-xl"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 <p className="text-xs text-slate-500 mb-0.5">Projects</p>
-                <p className="text-white font-semibold text-sm">10+ Built</p>
+                <p className="text-white font-semibold text-sm">{hero.projectsStat}</p>
               </div>
             </div>
           </div>

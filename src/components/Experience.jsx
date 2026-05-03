@@ -1,52 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { usePortfolio } from "../context/PortfolioContext";
 
 const Experience = () => {
+  const { data } = usePortfolio();
+  const { experience: experiences } = data;
   const [visibleItems, setVisibleItems] = useState([]);
   const [lineHeight, setLineHeight] = useState(0);
   const itemRefs = useRef([]);
   const sectionRef = useRef(null);
-
-  const experiences = [
-    {
-      company: "Qualiziom",
-      position: "Frontend Developer",
-      period: "December 2024 – June 2025",
-      location: "Casablanca, Morocco",
-      description:
-        "Maintained and improved a web application, implementing UI updates based on user stories and product requirements.",
-      achievements: [
-        "Refactored component architecture to improve reusability",
-        "Delivered UI updates aligned to user stories and sprint goals",
-      ],
-      skills: ["React", "JavaScript", "SQL", "CSS"],
-    },
-    {
-      company: "Sand Technologies",
-      position: "Full Stack Developer",
-      period: "June 2024 – October 2024",
-      location: "Casablanca, Morocco",
-      description:
-        "Collaborated on building an MVP application and responsive web platform from the ground up.",
-      achievements: [
-        "Built a responsive cross-platform app with FlutterFlow",
-        "Integrated Firebase for real-time data and authentication",
-      ],
-      skills: ["FlutterFlow", "JavaScript", "Firebase", "Figma"],
-    },
-    {
-      company: "ARK X Experience",
-      position: "Junior Full Stack Developer",
-      period: "August 2023 – March 2024",
-      location: "Casablanca, Morocco",
-      description:
-        "Worked on web platforms and mobile-friendly applications using React, Node.js, and MongoDB.",
-      achievements: [
-        "Improved application performance and load times",
-        "Enhanced responsiveness across mobile and desktop devices",
-      ],
-      skills: ["React", "JavaScript", "MongoDB", "Tailwind CSS", "GitHub", "CSS"],
-    },
-  ];
 
   // Animate items when they enter view (one-way — never unsets)
   useEffect(() => {
@@ -67,7 +28,7 @@ const Experience = () => {
     const refs = itemRefs.current.slice();
     refs.forEach((el) => { if (el) observer.observe(el); });
     return () => refs.forEach((el) => { if (el) observer.unobserve(el); });
-  }, []);
+  }, [experiences]);
 
   // Animate the central timeline line on scroll
   useEffect(() => {
@@ -125,7 +86,7 @@ const Experience = () => {
 
           {experiences.map((exp, index) => (
             <div
-              key={index}
+              key={exp.id ?? index}
               ref={(el) => (itemRefs.current[index] = el)}
               data-index={index}
               className={`relative flex flex-col md:flex-row items-start mb-12 transition-all duration-700 ${
