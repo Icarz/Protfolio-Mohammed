@@ -130,6 +130,17 @@ export const DEFAULT_DATA = {
       github: 'https://github.com/Icarz/chateauBlanc_chocolat',
       live: 'https://chateaublanc.vercel.app/#hero',
     },
+    {
+      id: 7,
+      title: 'Alta Immobilier',
+      description: 'A full-stack real estate web application that enables administrators to list and manage properties — including apartments, villas, and homes — available for sale or rent. The platform features a comprehensive admin panel and dashboard, giving administrators full control over property listings, visibility, and status updates.',
+      image: '/alta_ommobilier.png',
+      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
+      category: 'Full Stack',
+      featured: true,
+      github: 'https://github.com/Icarz/altaimmobilier',
+      live: 'https://altaimmobilier.vercel.app/',
+    },
   ],
   skills: {
     proficiency: [
