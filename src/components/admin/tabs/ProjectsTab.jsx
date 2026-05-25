@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Pencil, Trash2, X, Save, ChevronUp, ChevronDown, Star } from "lucide-react";
+import { useRef, useState } from "react";
+import { Plus, Pencil, Trash2, X, Save, ChevronUp, ChevronDown, Star, Upload } from "lucide-react";
 import { usePortfolio } from "../../../context/PortfolioContext";
 
 const EMPTY_PROJECT = {
@@ -27,11 +27,25 @@ const Field = ({ label, children }) => (
   </div>
 );
 
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024; // 2MB
+
 const ProjectForm = ({ initial, onSave, onCancel }) => {
   const [form, setForm] = useState({ ...EMPTY_PROJECT, ...initial });
   const [techInput, setTechInput] = useState("");
+  const fileInputRef = useRef(null);
 
   const set = (key, value) => setForm((p) => ({ ...p, [key]: value }));
+
+  const handleFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) { alert("Please choose an image file."); return; }
+    if (file.size > MAX_IMAGE_BYTES) { alert("Image too large. Max 2MB."); return; }
+    const reader = new FileReader();
+    reader.onload = () => set("image", reader.result); // base64 data URL
+    reader.onerror = () => alert("Failed to read image.");
+    reader.readAsDataURL(file);
+  };
 
   const addTech = () => {
     const t = techInput.trim();
@@ -78,8 +92,36 @@ const ProjectForm = ({ initial, onSave, onCancel }) => {
         />
       </Field>
 
-      <Field label="Image URL">
-        <Input value={form.image} onChange={(e) => set("image", e.target.value)} placeholder="https://... or /image.png" />
+      <Field label="Image">
+        <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+        <div className="flex items-center gap-3">
+          {form.image ? (
+            <img src={form.image} alt="Preview" className="w-20 h-14 object-cover rounded-lg border border-white/10 shrink-0" />
+          ) : (
+            <div className="w-20 h-14 rounded-lg border border-dashed border-white/15 flex items-center justify-center text-slate-600 text-xs shrink-0">
+              No image
+            </div>
+          )}
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 rounded-lg text-sm transition-all"
+            >
+              <Upload className="w-4 h-4" /> {form.image ? "Change" : "Upload"}
+            </button>
+            {form.image && (
+              <button
+                type="button"
+                onClick={() => set("image", "")}
+                className="flex items-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 rounded-lg text-sm transition-all"
+              >
+                <X className="w-4 h-4" /> Remove
+              </button>
+            )}
+          </div>
+        </div>
+        <p className="text-xs text-slate-600 mt-1.5">PNG, JPG, WEBP · max 2MB</p>
       </Field>
 
       <div className="grid sm:grid-cols-2 gap-4">
