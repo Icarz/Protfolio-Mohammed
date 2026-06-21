@@ -28,6 +28,10 @@ const TECH_COLORS = {
   Docker: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
   Redux: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
   GraphQL: 'text-pink-400 bg-pink-500/10 border-pink-500/20',
+  FastAPI: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20',
+  ChromaDB: 'text-amber-300 bg-amber-500/10 border-amber-500/20',
+  'Claude AI': 'text-orange-300 bg-orange-500/10 border-orange-500/20',
+  RAG: 'text-rose-300 bg-rose-500/10 border-rose-500/20',
 };
 
 const FALLBACK_COLORS = [
@@ -140,6 +144,17 @@ export const DEFAULT_DATA = {
       featured: true,
       github: 'https://github.com/Icarz/altaimmobilier',
       live: 'https://altaimmobilier.vercel.app/',
+    },
+    {
+      id: 8,
+      title: 'DocuBot',
+      description: 'An AI-powered document assistant that extracts information from PDF files and turns them into interactive chats using RAG (Retrieval-Augmented Generation), powered by Claude AI with ChromaDB vector search and conversation memory.',
+      image: '/DocuBot.png',
+      technologies: ['Python', 'FastAPI', 'Claude AI', 'ChromaDB', 'RAG', 'React', 'TypeScript'],
+      category: 'Full Stack',
+      featured: true,
+      github: 'https://github.com/Icarz/Docubot',
+      live: 'https://icarusdoc.vercel.app/',
     },
   ],
   skills: {
