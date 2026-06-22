@@ -4,7 +4,9 @@
       "Bash(npm run:*)",
       "Bash(npx eslint *)",
       "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
-      "mcp__plugin_context-mode_context-mode__ctx_search"
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "Bash(npx vite *)",
+      "Bash(node -e \"const {BrainCircuit, Code2} = require\\('lucide-react'\\); console.log\\('BrainCircuit:', typeof BrainCircuit\\); console.log\\('Code2:', typeof Code2\\);\")"
     ]
   }
 }

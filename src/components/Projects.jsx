@@ -1,5 +1,5 @@
-import { ExternalLink } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ExternalLink, Code2, BrainCircuit } from "lucide-react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { usePortfolio } from "../context/PortfolioContext";
 
 const GithubIcon = ({ className }) => (
@@ -8,11 +8,124 @@ const GithubIcon = ({ className }) => (
   </svg>
 );
 
+const ProjectCard = ({ project, index, isVisible }) => (
+  <div
+    className={`group bg-[#0A1628] rounded-2xl overflow-hidden border border-white/8 hover:border-blue-500/40 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 ${
+      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+    }`}
+    style={{ transitionDelay: `${index * 100 + 200}ms` }}
+  >
+    <div className="relative overflow-hidden aspect-[16/9] bg-slate-900">
+      <img
+        src={project.image}
+        alt={project.title}
+        width={640}
+        height={360}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      <div className="absolute inset-0 bg-[#020817]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center gap-3">
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            <GithubIcon className="w-4 h-4" />
+            Code
+          </a>
+        )}
+        {project.live && (
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-500 transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Live Demo
+          </a>
+        )}
+      </div>
+      <div className="absolute top-3 left-3">
+        <span
+          className="bg-[#020817]/80 backdrop-blur-sm text-blue-300 text-xs px-2.5 py-1 rounded-full border border-blue-500/20"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {project.category}
+        </span>
+      </div>
+      {project.featured && (
+        <div className="absolute top-3 right-3">
+          <span className="bg-blue-600/90 text-white text-xs px-2.5 py-1 rounded-full font-semibold">
+            Featured
+          </span>
+        </div>
+      )}
+    </div>
+    <div className="p-6">
+      <h3
+        className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        {project.title}
+      </h3>
+      <p className="text-slate-400 text-sm leading-relaxed mb-4">
+        {project.description}
+      </p>
+      <div className="flex md:hidden gap-2 mb-4">
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            <GithubIcon className="w-4 h-4" />
+            Code
+          </a>
+        )}
+        {project.live && (
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Live Demo
+          </a>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {project.technologies.map((tech) => (
+          <span
+            key={tech}
+            className="text-xs text-slate-400 bg-white/5 border border-white/8 px-2.5 py-1 rounded-full"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 const Projects = () => {
   const { data } = usePortfolio();
   const { projects } = data;
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+
+  const webProjects = useMemo(
+    () => projects.filter((p) => p.section !== "ai"),
+    [projects]
+  );
+  const aiProjects = useMemo(
+    () => projects.filter((p) => p.section === "ai"),
+    [projects]
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,7 +142,6 @@ const Projects = () => {
       ref={sectionRef}
       className="py-28 bg-[#030E1F] relative overflow-hidden"
     >
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 w-[600px] h-[300px] bg-blue-600/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/4 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
@@ -59,120 +171,68 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`group bg-[#0A1628] rounded-2xl overflow-hidden border border-white/8 hover:border-blue-500/40 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
-              style={{ transitionDelay: `${index * 100 + 200}ms` }}
-            >
-              {/* Image */}
-              <div className="relative overflow-hidden aspect-[16/9] bg-slate-900">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  width={640}
-                  height={360}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay with links — desktop hover only */}
-                <div className="absolute inset-0 bg-[#020817]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center gap-3">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-50 transition-colors"
-                    >
-                      <GithubIcon className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-500 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                  )}
-                </div>
-
-                {/* Category badge */}
-                <div className="absolute top-3 left-3">
-                  <span
-                    className="bg-[#020817]/80 backdrop-blur-sm text-blue-300 text-xs px-2.5 py-1 rounded-full border border-blue-500/20"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {project.category}
-                  </span>
-                </div>
-                {project.featured && (
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-blue-600/90 text-white text-xs px-2.5 py-1 rounded-full font-semibold">
-                      Featured
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3
-                  className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  {project.title}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                  {project.description}
-                </p>
-                {/* Mobile action buttons */}
-                <div className="flex md:hidden gap-2 mb-4">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
-                    >
-                      <GithubIcon className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap gap-1.5">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-xs text-slate-400 bg-white/5 border border-white/8 px-2.5 py-1 rounded-full"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
+        {/* Web Development Section */}
+        <div
+          className={`mb-20 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20">
+              <Code2 className="w-5 h-5 text-blue-400" />
             </div>
-          ))}
+            <div>
+              <h3
+                className="text-2xl font-bold text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Web Development
+              </h3>
+              <p className="text-slate-500 text-sm">Full-stack & frontend applications</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {webProjects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                isVisible={isVisible}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* AI Integrated Section */}
+        <div
+          className={`transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20">
+              <BrainCircuit className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <h3
+                className="text-2xl font-bold text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                AI Integrated Projects
+              </h3>
+              <p className="text-slate-500 text-sm">Applications powered by artificial intelligence</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {aiProjects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index + webProjects.length}
+                isVisible={isVisible}
+              />
+            ))}
+          </div>
         </div>
 
         {/* GitHub CTA */}
